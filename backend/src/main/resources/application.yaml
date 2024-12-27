@@ -1,0 +1,39 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: karncs88
+    password: tptdlfktqppgensv
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  application:
+    name: backend
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/backend
+    username: postgres
+    password: syspass
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 5MB
+---
+app:
+  token:
+    secret: m#MySecretGGWP2025
+    issuer: backend
+  email:
+    from: karncomsci26@gmail.com
+
+management:
+  web:
+    exposure:
+      include: health
+
