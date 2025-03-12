@@ -30,6 +30,8 @@ public class SecurityConfig {
             "/actuator/**",
             "/user/register",
             "/user/login",
+            "/user/activate",
+            "/user/resend-activation-email",
             "/socket/**"
     };
 

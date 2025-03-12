@@ -4,12 +4,11 @@ import com.karnty.training.backend.entity.User;
 import com.karnty.training.backend.exception.BaseException;
 import com.karnty.training.backend.exception.UserException;
 import com.karnty.training.backend.repository.UserRepository;
+import com.karnty.training.backend.util.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -24,6 +23,9 @@ public class UserService {
     public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);
     }
+    public Optional<User> findByToken(String token){
+        return userRepository.findByToken(token);
+    }
     public User updateName(String id,String name) throws BaseException {
        Optional<User> opt = userRepository.findById(id);
 
@@ -35,6 +37,9 @@ public class UserService {
 
        return userRepository.save(user);
     }
+    public User update(User user){
+        return userRepository.save(user);
+    }
     public Optional<User> findById(String id){
         return userRepository.findById(id);
     }
@@ -44,7 +49,7 @@ public class UserService {
     public boolean matchPassword(String rawPassword, String encodedPassword){
         return passwordEncoder.matches(rawPassword,encodedPassword);
     }
-    public User createUser(String email, String password, String name) throws BaseException {
+    public User createUser(String email, String password, String name, String token,Date tokenExpireDate) throws BaseException {
         //validate
         if(Objects.isNull(email)){
             throw UserException.createEmailNull();
@@ -63,6 +68,10 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
+        user.setToken(token);
+        user.setTokenExpire(tokenExpireDate);
+
         return userRepository.save(user);
     }
+
 }

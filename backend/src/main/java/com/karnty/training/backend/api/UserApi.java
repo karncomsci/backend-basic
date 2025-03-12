@@ -5,10 +5,14 @@ import com.karnty.training.backend.entity.User;
 import com.karnty.training.backend.exception.BaseException;
 import com.karnty.training.backend.exception.UserException;
 import com.karnty.training.backend.model.TestResponse;
+import com.karnty.training.backend.model.request.MActivateRequest;
 import com.karnty.training.backend.model.request.MLoginRequest;
 import com.karnty.training.backend.model.request.MRegisterRequest;
+import com.karnty.training.backend.model.request.MResendActivationEmailRequest;
+import com.karnty.training.backend.model.response.MActivateResponse;
 import com.karnty.training.backend.model.response.MLoginResponse;
 import com.karnty.training.backend.model.response.MRegisterResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,5 +56,15 @@ public class UserApi {
     public ResponseEntity<MLoginResponse> login(@RequestBody MLoginRequest request) throws BaseException {
         MLoginResponse response = business.login(request);
         return ResponseEntity.ok(response);
+    }
+    @PostMapping("/activate")
+    public ResponseEntity<MActivateResponse> activate(@RequestBody MActivateRequest request) throws BaseException{
+        MActivateResponse response = business.activate(request);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/resend-activation-email")
+    public ResponseEntity<Void> resendActivationEmail(@RequestBody MResendActivationEmailRequest request) throws BaseException {
+        business.resendActivationEmail(request);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

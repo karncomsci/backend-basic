@@ -7,10 +7,12 @@ import com.karnty.training.backend.exception.BaseException;
 import com.karnty.training.backend.service.AddressService;
 import com.karnty.training.backend.service.SocialService;
 import com.karnty.training.backend.service.UserService;
+import com.karnty.training.backend.util.SecurityUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +31,13 @@ class TestUserService {
 	@Order(1)
 	@Test
 	void testCreate() throws BaseException {
+		String token = SecurityUtil.generateToken();
 		User user = userService.createUser(
 				testCreateData.email,
 				testCreateData.password,
-				testCreateData.name
+				testCreateData.name,
+				token,
+				new Date()
 		);
 		Assertions.assertNotNull(user);
 		Assertions.assertEquals(testCreateData.email,user.getEmail());
